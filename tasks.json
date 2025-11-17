@@ -6,13 +6,5 @@
         "priority": "medium",
         "done": true,
         "created_at": "2025-08-28 20:15"
-    },
-    {
-        "id": 2,
-        "name": "gym",
-        "category": "Work",
-        "priority": "low",
-        "done": false,
-        "created_at": "2025-08-28 20:48"
     }
 ]
