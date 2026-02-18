@@ -6,7 +6,20 @@ import os
 app = Flask(__name__)
 
 # Configure database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
+database_url = os.environ.get('DATABASE_URL')
+
+if database_url:
+    # Fix for Vercel Postgres using postgres:// which SQLAlchemy doesn't support
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+elif os.environ.get('VERCEL'):
+    # Fallback to tmp SQLite if no DATABASE_URL is set (e.g. during build or if not configured)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/tasks.db'
+else:
+    # Local development
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -36,16 +49,6 @@ with app.app_context():
 @app.route("/")
 def index():
     tasks = Task.query.all()
-    # Convert tasks to dicts for the template if needed, or pass objects directly.
-    # The existing template likely expects dict-like access or object access.
-    # Jinja2 handles dot notation for both dicts and objects usually, 
-    # but let's check how the original code used it.
-    # Original: task['done'] -> dict access.
-    # SQLAlchemy objects use dot access: task.done.
-    # To minimize template changes, passing objects is fine if templates use dot notation,
-    # but if they use subscript [ ], we need to change the template or pass dicts.
-    # Let's inspect templates later if needed, but for now passing objects is standard.
-    # However, to be safe and compatible with previous dict structure:
     return render_template("index.html", tasks=[t.to_dict() for t in tasks])
 
 
