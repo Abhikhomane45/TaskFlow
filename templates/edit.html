@@ -1,44 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="header">
-    <h1><i class="fas fa-edit"></i> Edit Task</h1>
+<div class="header-section fade-in">
+    <h1><i class="fas fa-edit text-primary"></i> Edit Task</h1>
     <p>Update your task details</p>
 </div>
 
-<div class="card">
-    <form method="POST" class="task-form">
-        <div class="form-group">
-            <label for="task">Task Name</label>
-            <input type="text" name="task" value="{{ task.name }}" required>
+<div class="card glass fade-in" style="max-width: 600px; margin: 0 auto; animation-delay: 0.1s;">
+    <form method="POST" action="{{ url_for('edit', task_id=task.id) }}">
+        <div class="form-group floating-label">
+            <input type="text" id="task" name="task" value="{{ task.name }}" placeholder=" " required>
+            <label for="task"><i class="fas fa-tasks text-primary"></i> Task Name</label>
         </div>
+        
+        <div class="form-group floating-label">
+            <textarea id="description" name="description" placeholder=" " rows="3">{{ task.description or '' }}</textarea>
+            <label for="description"><i class="fas fa-align-left text-muted"></i> Description</label>
+        </div>
+        
+        <div class="form-group floating-label">
+            <input type="date" id="due_date" name="due_date" value="{{ task.due_date or '' }}" placeholder=" ">
+            <label for="due_date" class="standard-label"><i class="fas fa-calendar-alt text-muted"></i> Due Date</label>
+        </div>
+        
         <div class="form-row">
-            <div class="form-group">
-                <label for="category">Category</label>
-                <select name="category">
+            <div class="form-group floating-label">
+                <select id="category" name="category">
                     <option value="Work" {% if task.category == 'Work' %}selected{% endif %}>Work</option>
                     <option value="Personal" {% if task.category == 'Personal' %}selected{% endif %}>Personal</option>
                     <option value="Study" {% if task.category == 'Study' %}selected{% endif %}>Study</option>
                     <option value="Health" {% if task.category == 'Health' %}selected{% endif %}>Health</option>
                     <option value="Other" {% if task.category == 'Other' %}selected{% endif %}>Other</option>
                 </select>
+                <label for="category" class="standard-label"><i class="fas fa-folder text-muted"></i> Category</label>
             </div>
-            <div class="form-group">
-                <label for="priority">Priority</label>
-                <select name="priority">
-                    <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low Priority</option>
-                    <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium Priority</option>
-                    <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High Priority</option>
+            
+            <div class="form-group floating-label">
+                <select id="priority" name="priority">
+                    <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                    <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High</option>
                 </select>
+                <label for="priority" class="standard-label"><i class="fas fa-flag text-muted"></i> Priority</label>
             </div>
         </div>
-        <div class="form-actions">
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+            <a href="{{ url_for('index') }}" class="btn btn-outline">Cancel</a>
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save"></i> Update Task
+                <i class="fas fa-save"></i> Save Changes
             </button>
-            <a href="{{ url_for('index') }}" class="btn btn-secondary">
-                <i class="fas fa-times"></i> Cancel
-            </a>
         </div>
     </form>
 </div>

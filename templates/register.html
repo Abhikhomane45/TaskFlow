@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Register - TaskFlow{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card glass relative">
+        <div class="auth-header">
+            <div class="auth-icon"><i class="fas fa-user-plus text-gradient"></i></div>
+            <h2>Join TaskFlow</h2>
+            <p>Create an account to get started</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('register') }}" class="auth-form">
+            <div class="form-group floating-label">
+                <input type="text" id="username" name="username" placeholder=" " required autofocus>
+                <label for="username"><i class="fas fa-at text-muted"></i> Choose Username</label>
+            </div>
+            
+            <div class="form-group floating-label">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password"><i class="fas fa-shield-alt text-muted"></i> Create Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block btn-glow">
+                Create Account <i class="fas fa-check"></i>
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}" class="text-gradient font-medium">Log in</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

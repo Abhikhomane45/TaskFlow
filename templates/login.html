@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - TaskFlow{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card glass">
+        <div class="auth-header">
+            <div class="auth-icon"><i class="fas fa-lock text-gradient"></i></div>
+            <h2>Welcome Back</h2>
+            <p>Login to manage your tasks</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+            <div class="form-group floating-label">
+                <input type="text" id="username" name="username" placeholder=" " required autofocus>
+                <label for="username"><i class="fas fa-user text-muted"></i> Username</label>
+            </div>
+            
+            <div class="form-group floating-label">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password"><i class="fas fa-key text-muted"></i> Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block btn-glow">
+                Sign In <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="{{ url_for('register') }}" class="text-gradient font-medium">Sign up here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
